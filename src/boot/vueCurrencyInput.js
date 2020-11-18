@@ -6,8 +6,8 @@ export default async ({ Vue }) => {
   const pluginOptions = {
     /* see config reference */
     globalOptions: {
-      currency: 'PEN',
-      locale: 'es-PE',
+      currency: 'BRL',
+      locale: 'pt-BR',
       autoDecimalMode: true,
       precision: 2,
       valueAsInteger: true,

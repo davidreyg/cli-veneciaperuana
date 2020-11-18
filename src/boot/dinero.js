@@ -4,9 +4,9 @@ import Dinero from 'dinero.js'
 // "async" is optional;
 // more info on params: https://quasar.dev/quasar-cli/cli-documentation/boot-files#Anatomy-of-a-boot-file
 export default ({ Vue }) => { // something to do
-  Dinero.globalLocale = 'es-PE'
+  Dinero.globalLocale = 'pt-BR'
   Dinero.globalFormat = '$0,0.00'
-  Dinero.defaultCurrency = 'PEN'
+  Dinero.defaultCurrency = 'BRL'
   Dinero.defaultPrecision = 2
   Vue.filter('formatMoney', function (val) {
     return Dinero({ amount: parseInt(val) }).toFormat()

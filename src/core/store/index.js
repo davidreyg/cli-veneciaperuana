@@ -18,6 +18,12 @@ import client from 'modules/client/store'
 import invoiceProduct from 'modules/invoiceProduct/store'
 //COMPANIES
 import company from 'modules/company/store'
+//INGREDIENTS
+import ingredient from 'modules/ingredient/store'
+//PROVIDER
+import provider from 'modules/provider/store'
+//PROVIDER
+import billDetail from 'modules/billDetail/store'
 
 Vue.use(Vuex)
 
@@ -46,6 +52,9 @@ export default function (/* { ssrContext } */) {
       client,
       invoiceProduct,
       company,
+      ingredient,
+      provider,
+      billDetail,
     },
 
     // enable strict mode (adds overhead!)

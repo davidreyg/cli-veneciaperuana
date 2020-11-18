@@ -7,6 +7,7 @@ import store from '../store'
 import categoryRoutes from 'modules/category/routes'
 // import productRoutes from 'src/modules/product/routes'
 import invoiceProductsRoutes from 'modules/invoiceProduct/routes'
+import billDetailsRoutes from 'modules/billDetail/routes'
 
 const beforeEnter = (to, from, next) => {
   // console.log(store().state)
@@ -28,7 +29,8 @@ const routes = [
       { path: '', component: () => import('core/pages/Index.vue') },
       categoryRoutes,
       // productRoutes,
-      invoiceProductsRoutes
+      invoiceProductsRoutes,
+      billDetailsRoutes
     ]
   },
 

@@ -1,6 +1,6 @@
 export default function () {
   return {
-    companies: [],
-    selectedCompany: null
+    provider: [],
+    providers: null
   }
 }

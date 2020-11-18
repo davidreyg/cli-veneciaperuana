@@ -49,6 +49,15 @@
               <q-item-label caption>api/ventas</q-item-label>
             </q-item-section>
           </q-item>
+          <q-item clickable tag="a" to="/billDetails">
+            <q-item-section avatar>
+              <q-icon name="school" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>Compras</q-item-label>
+              <q-item-label caption>api/bills/billDetail</q-item-label>
+            </q-item-section>
+          </q-item>
         </q-expansion-item>
 
         <q-expansion-item

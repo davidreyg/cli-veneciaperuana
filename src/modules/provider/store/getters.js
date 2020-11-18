@@ -1,6 +1,12 @@
-export function getCompanies (state) {
-  return state.companies
+import { getField } from 'vuex-map-fields'
+
+export function getProviders (state) {
+  return state.providers
 }
-export function getSelectedCompany (state) {
-  return state.selectedCompany
+export function getProvider (state) {
+  return state.provider
+}
+
+export function getProviderField (state) {
+  return getField(state.provider)
 }

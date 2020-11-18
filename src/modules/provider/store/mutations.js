@@ -1,16 +1,18 @@
-import Ls from 'core/services/ls'
+import { updateField } from 'vuex-map-fields'
 import defaultState from './state'
 
-export function BOOTSTRAP_COMPANIES (state, companies) {
-  state.companies = companies
-  state.selectedCompany = companies[0]
+export function SET_PROVIDERS (state, providers) {
+  state.providers = providers
 }
-export function SET_SELECTED_COMPANY (state, company) {
-  Ls.set('selectedCompany', company.id)
-  state.selectedCompany = company
+export function SET_PROVIDER (state, provider) {
+  state.provider = provider
 }
 
-export function RESET_COMPANY_STATE (state) {
-  Ls.remove('selectedCompany')
+export function updateProductField (state, field) {
+  updateField(state.provider, field)
+}
+
+export function RESET_PROVIDER_STATE (state) {
   Object.assign(state, defaultState())
 }
+
