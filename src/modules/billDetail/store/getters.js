@@ -11,7 +11,8 @@ export function getCart (state, getters, rootState) {
     return {
       product: item.item,
       quantity: item.quantity,
-      totalItem: item.purchase_price * item.quantity
+      price: item.price,
+      totalItem: item.price * item.quantity
     }
   })
 }

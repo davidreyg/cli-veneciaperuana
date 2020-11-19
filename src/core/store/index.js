@@ -24,6 +24,8 @@ import ingredient from 'modules/ingredient/store'
 import provider from 'modules/provider/store'
 //PROVIDER
 import billDetail from 'modules/billDetail/store'
+//STORAGE
+import storage from 'modules/storage/store'
 
 Vue.use(Vuex)
 
@@ -55,6 +57,7 @@ export default function (/* { ssrContext } */) {
       ingredient,
       provider,
       billDetail,
+      storage,
     },
 
     // enable strict mode (adds overhead!)

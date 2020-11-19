@@ -10,7 +10,7 @@
         <form @submit.prevent="passes(insertBillDetails)" class="row">
           <div class="col-xs-12 col-sm-6 q-px-xs ">
             <ValidationProvider
-              rules="min: 3|max: 100"
+              rules="min: 3|max: 100|required"
               name="notas"
               v-slot="{ errors, invalid, validated }"
             >
@@ -81,19 +81,19 @@
           <div class="col-xs-12 col-sm-6 q-px-xs ">
             <ValidationProvider
               rules="min: 3|max: 100"
-              name="Alias"
+              name="descripcion"
               v-slot="{ errors, invalid, validated }"
             >
               <q-input
-                v-model="providerAlias"
+                v-model="formDetails.providerAlias"
                 class="q-mb-xs-md q-mb-sm-sm q-mb-md-sm"
                 dense
-                readonly
                 disable
+                readonly
                 outlined
                 color="blue-grey-10"
                 type="text"
-                label="Alias"
+                label="Descripcion"
                 :error="invalid && validated"
                 :error-message="errors[0]"
               />
@@ -118,8 +118,8 @@
                 :options="itemOptions"
                 :error="invalid && validated"
                 :error-message="errors[0]"
-                option-label="itemName"
-                option-value="itemCode"
+                option-label="name"
+                option-value="code"
                 map-options
                 clearable
                 @filter="filterItems"
@@ -163,7 +163,7 @@
               v-slot="{ errors, invalid, validated }"
             >
               <q-input
-                v-model="detail.stock"
+                v-model="formDetails.stock"
                 class="q-mb-xs-md q-mb-sm-sm q-mb-md-sm"
                 dense
                 disable
@@ -180,50 +180,11 @@
           <div class="col-xs-12 col-sm-3 q-px-xs ">
             <ValidationProvider
               rules="min: 1|max: 100"
-              name="Stock minimo"
-              v-slot="{ errors, invalid, validated }"
-            >
-              <q-input
-                v-model="detail.minimal_stock"
-                class="q-mb-xs-md q-mb-sm-sm q-mb-md-sm"
-                dense
-                outlined
-                color="blue-grey-10"
-                type="text"
-                label="Stock minimo"
-                :error="invalid && validated"
-                :error-message="errors[0]"
-              />
-            </ValidationProvider>
-          </div>
-          <div class="col-xs-12 col-sm-3 q-px-xs ">
-            <ValidationProvider
-              rules="min: 1|max: 100"
-              name="Precio de venta"
-              v-slot="{ errors, invalid, validated }"
-            >
-              <q-input
-                v-model="detail.selling_price"
-                class="q-mb-xs-md q-mb-sm-sm q-mb-md-sm"
-                dense
-                outlined
-                v-currency
-                color="blue-grey-10"
-                type="text"
-                label="Precio de venta"
-                :error="invalid && validated"
-                :error-message="errors[0]"
-              />
-            </ValidationProvider>
-          </div>
-          <div class="col-xs-12 col-sm-3 q-px-xs ">
-            <ValidationProvider
-              rules="min: 1|max: 100"
               name="Precio de compra"
               v-slot="{ errors, invalid, validated }"
             >
               <q-input
-                v-model="detail.purchase_price"
+                v-model="detail.price"
                 class="q-mb-xs-md q-mb-sm-sm q-mb-md-sm"
                 dense
                 outlined
@@ -268,6 +229,8 @@
                 v-model="formatedTotal"
                 class="q-mb-xs-md q-mb-sm-sm q-mb-md-sm"
                 dense
+                disable
+                readonly
                 outlined
                 color="blue-grey-10"
                 type="text"
@@ -307,11 +270,11 @@
                   <td class="text-left" v-text="item.quantity">
                     Frozen Yogurt
                   </td>
-                  <td class="text-left" v-text="item.product.itemName">
+                  <td class="text-left" v-text="item.product.name">
                     Frozen Yogurt
                   </td>
                   <td class="text-left">
-                    {{ item.product.itemPrice | formatMoney }}
+                    {{ item.price | formatMoney }}
                   </td>
                   <td class="text-right">
                     {{ item.totalItem | formatMoney }}
@@ -327,7 +290,8 @@
                     />
                   </td>
                 </tr>
-                <tr>
+                <!-- <tr>
+
                   <td class="text-left"></td>
                   <td class="text-left"></td>
                   <td class="text-left">Sub Total</td>
@@ -340,12 +304,14 @@
                   <td class="text-left">I.G.V</td>
                   <td class="text-right">0</td>
                   <td class="text-right"></td>
-                </tr>
+                </tr> -->
                 <tr>
                   <td class="text-left"></td>
                   <td class="text-left"></td>
-                  <td class="text-left">Total</td>
-                  <td class="text-right">{{ totalDetails | formatMoney }}</td>
+                  <td class="text-left text-bold">Total</td>
+                  <td class="text-right text-bold">
+                    {{ totalDetails | formatMoney }}
+                  </td>
                   <td class="text-right"></td>
                 </tr>
               </tbody>
@@ -373,7 +339,7 @@
               <q-btn
                 class="q-mt-md full-width"
                 :color="invalid ? 'grey' : 'primary'"
-                label="Crear"
+                label="Comprar"
                 type="submit"
               />
             </div>
@@ -390,7 +356,7 @@
         </form>
       </ValidationObserver>
     </q-card-section>
-    <pre>{{ this.detail }}</pre>
+    <!-- <pre>{{ this.details }}</pre> -->
   </q-card>
 </template>
 
@@ -411,65 +377,65 @@ export default {
         sub_total: 0,
         total: 0,
         user_id: null,
-
         tax: 0
       },
       detail: {
         name: '',
         description: '',
-        purchase_price: '',
-        formatedPrice: 0,
-        selling_price: '',
-        minimal_stock: null,
+        price: '',
         code: null,
         quantity: 0,
         total: 0,
         provider_id: null,
         invoice_id: null,
         billable_id: null,
-        billable_type: null,
+        billable_type: null
+      },
+      formDetails: {
+        providerAlias: null,
         stock: null
       },
       item: null,
       provider: null,
-      providerAlias: null,
       itemOptions: this.items,
       providerOptions: this.providers,
-      dateInvoice: null,
+      dateInvoice: date.formatDate(Date.now(), 'D - MMMM - YYYY'),
       disableClientInput: false
     }
   },
   async created() {
     await this.fetchProviders()
     await this.fetchItemsFromStorage()
-    const fecha = date.formatDate(Date.now(), 'D - MMMM - YYYY')
-    this.dateInvoice = fecha
     this.bill.user_id = this.loggedUserID
   },
   methods: {
     ...mapActions('provider', ['fetchProviders']),
     ...mapActions('billDetail', [
-      'fetchItemsFromStorage',
       'addItemToCart',
-      'deleteItemsFromCart',
+      'fetchItemsFromStorage',
+      'deleteItemFromCart',
       'storeBillDetails'
     ]),
     async insertBillDetails() {
+      const formatedPurchasePrice = this.$parseCurrency(this.detail.price)
       await this.addItemToCart({
         product: this.item,
         bill: this.bill,
-        billDetail: this.detail
+        billDetail: this.detail,
+        formatedPurchasePrice
       }).then(() => {
-        billFormService.clearDetailAndItemInputs({
-          detail: this.detail,
-          item: this.item
-        })
+        billFormService
+          .clearDetailAndItemInputs({ detail: this.detail })
+          .then(() => {
+            this.item = null
+          })
       })
     },
     insertInvoiceProduct() {
       this.storeBillDetails({ billHeader: this.bill })
         .then(() => {
           alert('insertado en al bd')
+          this.$router.push('/')
         })
         .catch(error => {
           alert('algo salio MAL')
@@ -479,52 +445,22 @@ export default {
     calculateTotalDetail() {
       this.detail.total = billFormService.calculateTotalOfDetail({
         quantity: this.detail.quantity,
-        purchase_price: this.$parseCurrency(this.detail.purchase_price)
+        price: this.$parseCurrency(this.detail.price)
       })
-
-      // const cant = this.detail.quantity
-      // this.detail.formatedPrice = this.$parseCurrency(
-      //   this.detail.purchase_price
-      // )
-      // if (this.item) {
-      //   const total = this.$parseCurrency(this.detail.purchase_price) * cant
-      //   this.detail.total = total
-      // }
-    },
-    deleteItemFromCart(indexCart) {
-      this.deleteItemsFromCart(indexCart)
     },
     showItem() {
-      if (this.item) {
-        this.detail.name = this.item.itemName
-        this.detail.description = this.item.itemDescription
-        this.detail.stock = this.item.itemStock
-        this.detail.purchase_price = this.item.itemPrice
-        this.detail.billable_id = this.item.itemId
-        this.detail.billable_type = this.item.itemType
-        this.detail.code = this.item.itemCode
-      } else {
-        console.log('no hay nada')
-        this.detail.name = null
-        this.detail.description = null
-        this.detail.stock = null
-        this.detail.code = null
-        this.detail.purchase_price = 0
-        this.detail.total = 0
-        this.detail.quantity = null
-        this.detail.billable_id = null
-        this.detail.billable_type = null
-      }
+      billFormService.showItemDetails({
+        detail: this.detail,
+        item: this.item,
+        formDetails: this.formDetails
+      })
     },
     showProvider() {
-      if (this.provider) {
-        this.detail.provider_id = this.provider.id
-        this.providerAlias = this.provider.alias
-      } else {
-        console.log('no hay nada')
-        this.providerAlias = null
-        this.detail.provider_id = null
-      }
+      billFormService.showProviderDetails({
+        detail: this.detail,
+        provider: this.provider,
+        formDetails: this.formDetails
+      })
     },
     filterItems(val, update) {
       if (val === '') {

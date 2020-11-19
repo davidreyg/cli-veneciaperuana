@@ -8,6 +8,8 @@ import categoryRoutes from 'modules/category/routes'
 // import productRoutes from 'src/modules/product/routes'
 import invoiceProductsRoutes from 'modules/invoiceProduct/routes'
 import billDetailsRoutes from 'modules/billDetail/routes'
+// storage
+import storageRoutes from 'modules/storage/routes'
 
 const beforeEnter = (to, from, next) => {
   // console.log(store().state)
@@ -30,7 +32,8 @@ const routes = [
       categoryRoutes,
       // productRoutes,
       invoiceProductsRoutes,
-      billDetailsRoutes
+      billDetailsRoutes,
+      storageRoutes
     ]
   },
 

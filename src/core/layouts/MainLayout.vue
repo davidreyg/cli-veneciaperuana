@@ -31,13 +31,13 @@
               <q-item-label caption>api/categorias</q-item-label>
             </q-item-section>
           </q-item>
-          <q-item clickable tag="a" to="/products">
+          <q-item clickable tag="a" to="/storage">
             <q-item-section avatar>
               <q-icon name="shopping_cart" />
             </q-item-section>
             <q-item-section>
-              <q-item-label>Productos</q-item-label>
-              <q-item-label caption>api/productos</q-item-label>
+              <q-item-label>Almacén</q-item-label>
+              <q-item-label caption>api/storages</q-item-label>
             </q-item-section>
           </q-item>
           <q-item clickable tag="a" to="/invoiceProducts">

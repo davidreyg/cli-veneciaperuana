@@ -4,7 +4,7 @@ export function addItemQuantity (state, { item, billDetail }) {
   item.total += billDetail.total
 }
 
-export function addItemToCart (state, { item, bill, billDetail }) {
+export function addItemToCart (state, { item, bill, billDetail, formatedPurchasePrice }) {
   state.cart.notes = bill.notes
   state.cart.sub_total = bill.sub_total
   state.cart.user_id = bill.user_id
@@ -13,9 +13,7 @@ export function addItemToCart (state, { item, bill, billDetail }) {
     item,
     name: billDetail.name,
     description: billDetail.description,
-    purchase_price: billDetail.formatedPrice,
-    selling_price: billDetail.selling_price,
-    minimal_stock: billDetail.minimal_stock,
+    price: formatedPurchasePrice,
     code: billDetail.code,
     total: billDetail.total,
     quantity: parseInt(billDetail.quantity),
@@ -35,7 +33,6 @@ export function createBillHeader (state, { billHeader }) {
 }
 
 export function deleteItemFromCart (state, itemId) {
-  console.log(itemId);
   const deletedItem = state.cart.bill_details.splice(itemId, 1)
   state.cart.total -= parseInt(deletedItem[0].total)
 }

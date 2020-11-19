@@ -17,17 +17,18 @@ export async function fetchOneIngredient (context, ingredient) {
     })
 }
 
-export async function addItemToCart (context, { product, bill, billDetail }) {
+export async function addItemToCart (context, { product, bill, billDetail, formatedPurchasePrice }) {
   // if (product.stock === 0) return
-  const item = context.state.cart.bill_details.find(item => item.item.itemCode === product.itemCode)
+
+  const item = context.state.cart.bill_details.find(item => item.item.code === product.code)
   if (item) {
     await context.commit('addItemQuantity', { item, billDetail })
   } else {
-    context.commit('addItemToCart', { item: product, bill, billDetail })
+    context.commit('addItemToCart', { item: product, bill, billDetail, formatedPurchasePrice })
   }
   // context.commit('decrementProductInventory', { producto, quantity })
 }
-export async function deleteItemsFromCart (context, itemId) {
+export async function deleteItemFromCart (context, itemId) {
   context.commit('deleteItemFromCart', itemId)
 }
 
@@ -36,13 +37,10 @@ export async function storeBillDetails (context, { billHeader }) {
   context.commit('createBillHeader', { billHeader })
   const invoice = context.state.cart
   console.log(invoice);
-  // await BillDetailService.create(invoice)
-  //   .then((data) => {
-  //     console.log(data.data);
-  //     // context.dispatch('fetchinvoiceProducts')
-  //     // context.dispatch('openModalCrear', false)
-  //   })
-  //   .catch(err => {
-  //     console.error(err)
-  //   })
+  await BillDetailService.create(invoice)
+    .then((data) => {
+      console.log(data.data);
+      // context.dispatch('fetchinvoiceProducts')
+      // context.dispatch('openModalCrear', false)
+    })
 }

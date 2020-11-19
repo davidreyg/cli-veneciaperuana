@@ -5,7 +5,7 @@ export default {
     return Service.post(`${resource}/createDetail`, bill)
   },
   getItemsFromStorage () {
-    return Service.get(`/api/storageItems`)
+    return Service.get(`/api/storages`)
   },
   getOneItemFromStorage (storageItem) {
     return Service.get(`/api/storageItems/${storageItem}`)
