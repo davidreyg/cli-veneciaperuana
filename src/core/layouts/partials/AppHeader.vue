@@ -11,7 +11,7 @@
 
       <q-toolbar-title>
         <q-avatar>
-          <img src="statics/img/quasar-logo.svg" />
+          <img src="statics/icons/logoVeneciaPeruana.jpg" />
         </q-avatar>
         Facturacion con Laravel
       </q-toolbar-title>

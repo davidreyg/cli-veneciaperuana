@@ -3,7 +3,7 @@
     <q-toolbar>
       <q-toolbar-title>
         <q-avatar>
-          <img src="statics/img/quasar-logo.svg" />
+          <!-- <img src="statics/img/quasar-logo.svg" /> -->
         </q-avatar>
         <div class="text-right">
           {{ $t('general.powered_by') }}

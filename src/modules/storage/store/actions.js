@@ -2,23 +2,20 @@ import { ServiceFactory } from 'core/services/ServiceFactory'
 const StorageService = ServiceFactory.get('storages')
 
 export async function fetchStorages ({ commit }) {
-  await StorageService.get()
+  return await StorageService.get()
     .then(storages => {
-      console.log(storages.data);
+      // console.log(storages.data);
       commit('SET_STORAGES', storages.data.data)
     })
 }
 
-// export async function fetchOneProduct(context, payload) {
-//   await StorageService.getOne(payload)
-//     .then(product => {
-//       // console.log(product);
-//       context.commit('SET_STORAGE', product.data)
-//     })
-//     .catch(err => {
-//       console.error(err)
-//     })
-// }
+export async function fetchOneItem (context, itemCode) {
+  return await StorageService.getOne(itemCode)
+    .then(item => {
+      // console.log(item);
+      context.commit('SET_STORAGE', item.data)
+    })
+}
 
 // export async function storeProduct(context, payload) {
 //   return await StorageService.create(payload)
@@ -31,10 +28,11 @@ export async function fetchStorages ({ commit }) {
 //     })
 // }
 
-// export async function updateProduct(context, productFormData) {
-//   return await StorageService.update(productFormData)
+export async function updateStorage (context, storage) {
+  // console.log(storage);
+  return await StorageService.update(storage)
 
-// }
+}
 
 // export async function emptySelectedProduct(context, payload) {
 //     await context.commit('SET_STORAGE', {})

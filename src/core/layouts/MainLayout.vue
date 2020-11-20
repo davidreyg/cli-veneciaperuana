@@ -31,7 +31,7 @@
               <q-item-label caption>api/categorias</q-item-label>
             </q-item-section>
           </q-item>
-          <q-item clickable tag="a" to="/storage">
+          <q-item clickable tag="a" to="/storages">
             <q-item-section avatar>
               <q-icon name="shopping_cart" />
             </q-item-section>

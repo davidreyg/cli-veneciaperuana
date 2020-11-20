@@ -12,9 +12,9 @@ export default {
   // create (item) {
   //   return Service.post(`${resource}`, item)
   // },
-  update (item, code) {
-    // console.log(item)
-    return Service.post(`${resource}/${code}`, item)
+  update (storage) {
+    // console.log(storage)
+    return Service.put(`${resource}/${storage.id}`, storage)
   },
   // destroy (storage) {
   //   return Service.delete(`${resource}/${storage}`)

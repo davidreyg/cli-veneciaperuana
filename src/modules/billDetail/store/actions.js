@@ -5,7 +5,7 @@ export async function fetchItemsFromStorage (context) {
   return await BillDetailService.getItemsFromStorage()
     .then(items => {
       // console.log(items.data);
-      context.commit('SET_ITEMS', items.data)
+      context.commit('SET_ITEMS', items.data.data)
     })
 }
 

@@ -3,12 +3,12 @@
     dense
     :grid="$q.screen.xs"
     title="Categorias"
-    :data="getStorages"
+    :data="itemsList"
     :columns="columns"
-    row-key="id"
+    row-key="code"
+    :rows-per-page-options="[10, 20, 50, 100, 0]"
     :filter="filter"
     :loading="loading"
-    :visible-columns="visibleColumns"
   >
     <template v-slot:top-right>
       <q-input
@@ -24,32 +24,34 @@
       </q-input>
     </template>
     <template v-slot:top-left>
-      <div class="row items-center q-gutter-sm">
-        <div class="col-">
-          <q-btn
-            color="primary"
-            label="Nuevo"
-            icon="add"
-            @click="newCategory(true)"
-          >
-            <q-tooltip content-class="bg-accent">Nueva categoria</q-tooltip>
-          </q-btn>
+      <div class="row">
+        <div class="col-3">
+          <h5>Almacén</h5>
         </div>
-        <div class="col">
-          <q-select
-            v-model="visibleColumns"
-            multiple
-            square
-            outlined
-            dense
-            options-dense
-            :display-value="$q.lang.table.columns"
-            emit-value
-            map-options
-            :options="columns"
-            option-value="name"
-            options-cover
-            style="min-width: 150px"
+        <div class="col-9">
+          <q-radio
+            v-model="itemCondition"
+            @input="selectOptions"
+            val=""
+            label="Todo"
+          />
+          <q-radio
+            v-model="itemCondition"
+            @input="selectOptions"
+            val="C"
+            label="Stock 0"
+          />
+          <q-radio
+            v-model="itemCondition"
+            @input="selectOptions"
+            val="A"
+            label="Recien comprado"
+          />
+          <q-radio
+            v-model="itemCondition"
+            @input="selectOptions"
+            val="V"
+            label="Con precio de venta"
           />
         </div>
       </div>
@@ -59,13 +61,13 @@
         <q-btn
           outline
           round
-          color="warning"
-          icon="edit"
+          color="green"
+          icon="lock"
           no-caps
           dense
-          @click="editCategory(props.row.id)"
+          @click="editStorageItem(props.row.id)"
         />
-        <q-btn
+        <!-- <q-btn
           outline
           round
           color="negative"
@@ -73,7 +75,7 @@
           no-caps
           dense
           @click="eliminarCategoria(props.row)"
-        />
+        /> -->
       </q-td>
     </template>
     <template v-slot:item="props">
@@ -100,7 +102,7 @@
                     icon="edit"
                     no-caps
                     dense
-                    @click="editCategory(props.row.id)"
+                    @click="editStorageItem(props.row.id)"
                   />
                   <q-btn
                     outline
@@ -125,9 +127,10 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 export default {
-  name: 'CategoryList',
+  name: 'StorageList',
   data() {
     return {
+      itemCondition: '',
       loading: false,
       filter: '',
       visibleColumns: ['code', 'name', 'description', 'price', 'action'],
@@ -148,6 +151,14 @@ export default {
           required: true
         },
         {
+          name: 'quantity',
+          align: 'right',
+          label: 'Stock',
+          field: 'quantity',
+          sortable: true,
+          required: true
+        },
+        {
           name: 'description',
           align: 'right',
           label: 'Descripción',
@@ -155,56 +166,51 @@ export default {
           sortable: true
         },
         {
-          name: 'price',
+          name: 'purchase_price',
           align: 'right',
           label: 'P. Compra',
           field: row => this.Dinero({ amount: row.purchase_price }).toFormat(),
           sortable: true
         },
+        {
+          name: 'selling_price',
+          align: 'right',
+          label: 'P. Venta',
+          field: row => this.Dinero({ amount: row.selling_price }).toFormat(),
+          sortable: true
+        },
         { name: 'action', align: 'center', label: 'Opciones', field: 'action' }
-      ]
+      ],
+      itemsList: []
     }
   },
   async created() {
     this.loading = true
-    await this.fetchCategories()
-    await this.fetchStorages()
-    this.loading = false
+    await this.fetchStorages().then(() => {
+      this.loading = false
+      this.itemsList = this.itemsFromStorage('')
+    })
   },
   methods: {
     ...mapActions('storage', ['fetchStorages']),
-    ...mapActions('category', ['deleteCategory', 'fetchCategories']),
-    eliminarCategoria(category) {
-      // console.log(categoria)
-      this.$swal
-        .fire({
-          title: `¿Esta seguro de eliminar la categoria ${category.name}?`,
-          html:
-            '<span style="color:red">¡No podra revertir esta acción!</span>',
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          cancelButtonText: 'Cancelar',
-          confirmButtonText: 'Si, seguro!'
-        })
-        .then(confirmado => {
-          if (confirmado.value) {
-            this.deleteCategory(category.id)
-          }
-        })
-    },
     newCategory() {
       this.$router.push({ name: 'categories.create' })
     },
-    editCategory(id) {
-      this.$router.push({ name: 'categories.edit', params: { id: id } })
+    selectOptions() {
+      this.itemsList = this.itemsFromStorage(this.itemCondition)
+      // if (this.itemCondition === 'stateV')
+      // if (this.itemCondition === 'stateC')
+      //   this.itemsList = this.itemsList.filter(item => item.status === 'C')
+      // if (this.itemCondition === 'stateA')
+      //   this.itemsList = this.itemsList.filter(item => item.status === 'A')
+      // if (this.itemCondition === 'all') this.itemsList
+    },
+    editStorageItem(id) {
+      this.$router.push({ name: 'storages.edit', params: { id } })
     }
   },
   computed: {
-    // LET CATEGORIAS
-    ...mapGetters('category', ['getCategories']),
-    ...mapGetters('storage', ['getStorages'])
+    ...mapGetters('storage', { itemsFromStorage: 'getStorages' })
   }
 }
 </script>

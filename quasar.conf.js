@@ -7,7 +7,8 @@
 // https://quasar.dev/quasar-cli/quasar-conf-js
 /* eslint-env node */
 const path = require('path')
-module.exports = function ( ctx ) {
+module.exports = function (ctx) {
+  // console.log(ctx);
   return {
     // https://quasar.dev/quasar-cli/cli-documentation/supporting-ie
     supportIE: false,
@@ -44,6 +45,9 @@ module.exports = function ( ctx ) {
     css: [
       'app.sass'
     ],
+    htmlVariables: {
+      appName: 'Venecia Peruana'
+    },
 
     // https://github.com/quasarframework/quasar/tree/dev/extras
     extras: [
@@ -55,7 +59,7 @@ module.exports = function ( ctx ) {
       // 'line-awesome',
       // 'roboto-font-latin-ext', // this or either 'roboto-font', NEVER both!
 
-      'roboto-font', // optional, you are not bound to it
+      'roboto-font-latin-ext', // optional, you are not bound to it
       'material-icons', // optional, you are not bound to it
     ],
 
@@ -76,19 +80,19 @@ module.exports = function ( ctx ) {
       // analyze: true,
 
       env: ctx.dev
-      ? {
-        // so on dev we'll have
-        BASE_API_URL: JSON.stringify('http://veneciaperuana.dev.com')
-      }
-      : {
-        // and on build (production):
-        BASE_API_URL: JSON.stringify('http://veneciaperuana.dev.com/api')
-      },
+        ? {
+          // so on dev we'll have
+          BASE_API_URL: JSON.stringify('http://veneciaperuana.dev.com')
+        }
+        : {
+          // and on build (production):
+          BASE_API_URL: JSON.stringify('http://veneciaperuana.dev.com/api')
+        },
       // Options below are automatically set depending on the env, set them if you want to override
       // extractCSS: false,
 
       // https://quasar.dev/quasar-cli/cli-documentation/handling-webpack
-      extendWebpack(cfg) {
+      extendWebpack (cfg) {
         cfg.module.rules.push({
           enforce: 'pre',
           test: /\.(js|vue)$/,
@@ -102,6 +106,7 @@ module.exports = function ( ctx ) {
           core: path.resolve(__dirname, './src/core'),
           modules: path.resolve(__dirname, './src/modules')
         }
+        // cfg.HtmlWebpackPlugin.options.productName = 'Venecia Peruana'
       },
     },
 
@@ -148,7 +153,7 @@ module.exports = function ( ctx ) {
       workboxPluginMode: 'GenerateSW', // 'GenerateSW' or 'InjectManifest'
       workboxOptions: {}, // only for GenerateSW
       manifest: {
-        name: 'Quasar App',
+        name: 'Venecia Peruana',
         short_name: 'Quasar App',
         description: 'A Quasar Framework app',
         display: 'standalone',
@@ -222,7 +227,7 @@ module.exports = function ( ctx ) {
       // More info: https://quasar.dev/quasar-cli/developing-electron-apps/node-integration
       nodeIntegration: true,
 
-      extendWebpack(/* cfg */) {
+      extendWebpack (/* cfg */) {
         // do something with Electron main process Webpack cfg
         // chainWebpack also available besides this extendWebpack
       }
