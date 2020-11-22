@@ -179,7 +179,7 @@
           </div>
           <div class="col-xs-12 col-sm-3 q-px-xs ">
             <ValidationProvider
-              rules="min: 1|max: 100"
+              rules="min: 1|max: 100|required"
               name="Precio de compra"
               v-slot="{ errors, invalid, validated }"
             >
@@ -188,6 +188,7 @@
                 class="q-mb-xs-md q-mb-sm-sm q-mb-md-sm"
                 dense
                 outlined
+                :disable="formDetails.disablePriceQuantityInputs"
                 v-currency
                 color="blue-grey-10"
                 type="text"
@@ -207,6 +208,7 @@
               <q-input
                 v-model="detail.quantity"
                 class="q-mb-xs-md q-mb-sm-sm q-mb-md-sm"
+                :disable="formDetails.disablePriceQuantityInputs"
                 dense
                 outlined
                 color="blue-grey-10"
@@ -393,7 +395,8 @@ export default {
       },
       formDetails: {
         providerAlias: null,
-        stock: null
+        stock: null,
+        disablePriceQuantityInputs: true
       },
       item: null,
       provider: null,
@@ -443,10 +446,12 @@ export default {
         })
     },
     calculateTotalDetail() {
-      this.detail.total = billFormService.calculateTotalOfDetail({
-        quantity: this.detail.quantity,
-        price: this.$parseCurrency(this.detail.price)
-      })
+      if (this.item) {
+        this.detail.total = billFormService.calculateTotalOfDetail({
+          quantity: this.detail.quantity,
+          price: this.$parseCurrency(this.detail.price)
+        })
+      }
     },
     showItem() {
       billFormService.showItemDetails({

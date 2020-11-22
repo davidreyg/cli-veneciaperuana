@@ -3,6 +3,7 @@ import { ValidationProvider, extend, localize } from 'vee-validate'
 import { required, length, min, max, max_value, numeric, is, email, min_value } from 'vee-validate/dist/rules'
 import es from 'vee-validate/dist/locale/es.json'
 import en from 'vee-validate/dist/locale/en.json';
+import pt_BR from 'vee-validate/dist/locale/pt_BR.json';
 import utils from '../core/utils/utilities';
 
 
@@ -25,6 +26,6 @@ export default ({ Vue }) => {
   extend('url', {
     validate: urlFixRule,
   })
-  localize({ es, en })
+  localize({ es, en, pt_BR })
   Vue.component('ValidationProvider', ValidationProvider)
 }

@@ -1,90 +1,81 @@
 <template>
-  <q-card class="my-card">
-    <q-card-section class="bg-primary text-white">
-      <div class="text-h6">Actualizar Categoria</div>
-      <div class="text-subtitle3">Los campos con (*) son obligatorios</div>
-    </q-card-section>
-    <q-separator />
-    <q-card-section class="collumn col-12 full-width">
+  <PageLayout>
+    <div
+      slot="pageTitle"
+      class="text-h6"
+      v-html="$t('categories.edit_category')"
+    ></div>
+    <div
+      slot="pageSubTitle"
+      class="text-subtitle3"
+      v-html="$t('form_general.form_subtitle')"
+    >
+      Los campos con (*) son obligatorios
+    </div>
+    <div slot="pageOptions"></div>
+    <slot>
       <ValidationObserver ref="observer" v-slot="{ passes, invalid }">
-        <form>
-          <div class="row">
-            <div class="col col-12 q-px-xs ">
+        <form class="row">
+          <div class="col-md-6 col-xs-12 col-sm-8 q-gutter-y-md">
+            <div class="col col-12">
               <ValidationProvider
                 rules="required|min:4 |max:20"
-                name="nombre"
+                :name="$t('form_general.name')"
                 v-slot="{ errors, invalid, validated }"
               >
                 <q-input
                   v-model="name"
-                  class="q-mb-md"
-                  color="blue-grey-10"
+                  dense
+                  outlined
                   type="text"
-                  label="Nombre (*)"
+                  :label="$t('form_general.name') + ' (*)'"
                   :error="invalid && validated"
                   :error-message="errors[0]"
                 />
               </ValidationProvider>
             </div>
-            <div class="col col-12 q-px-xs ">
+            <div class="col col-12">
               <ValidationProvider
                 rules="min: 3|max: 100"
-                name="descripcion"
+                :name="$t('form_general.description')"
                 v-slot="{ errors, invalid, validated }"
               >
                 <q-input
                   v-model="description"
-                  class="q-mb-md"
-                  color="blue-grey-10"
+                  outlined
+                  dense
                   type="text"
-                  label="Descripcion"
+                  :label="$t('form_general.description')"
                   :error="invalid && validated"
                   :error-message="errors[0]"
                 />
               </ValidationProvider>
             </div>
-            <div class="col col-12 q-px-xs ">
-              <ValidationProvider
-                rules="required|numeric"
-                name="precio"
-                v-slot="{ errors, invalid, validated }"
-              >
-                <q-input
-                  v-model="price"
-                  class="q-mb-md"
-                  color="blue-grey-10"
-                  type="text"
-                  label="Precio"
-                  :error="invalid && validated"
-                  :error-message="errors[0]"
-                />
-              </ValidationProvider>
-            </div>
-            <div class="row justify-center items-center fit q-gutter-md">
-              <div class="col-5">
+            <div class="row justify-around items-center">
+              <div class="col-4">
                 <q-btn
-                  class="q-mt-md full-width"
+                  class="full-width"
                   type="submit"
-                  label="Actualizar"
                   :color="invalid ? 'grey' : 'primary'"
+                  :label="$t('general.save')"
                   @click.prevent="passes(actualizarCategoria)"
                 />
               </div>
-              <div class="col-5">
+              <div class="col-4">
                 <q-btn
-                  class="q-mt-md full-width"
+                  class="full-width"
                   type="button"
                   color="negative"
-                  label="Cancelar"
-                  @click="$router.go(-1)"
+                  :label="$t('general.cancel')"
+                  @click="resetCategoryState()"
                 />
               </div>
             </div>
           </div>
         </form>
       </ValidationObserver>
-    </q-card-section>
-  </q-card>
+    </slot>
+  </PageLayout>
 </template>
 
 <script>
@@ -96,9 +87,10 @@ const { mapFields } = createHelpers({
   getterType: 'category/getCategoryField',
   mutationType: 'category/updateCategoryField'
 })
+import PageLayout from 'core/components/PageLayout'
 export default {
   name: 'EditForm',
-  components: { ValidationObserver },
+  components: { ValidationObserver, PageLayout },
   data() {
     return {}
   },
@@ -111,7 +103,8 @@ export default {
     // }),
     ...mapActions({
       updateCategoria: 'updateCategory',
-      fetchOneCategory: 'fetchOneCategory'
+      fetchOneCategory: 'fetchOneCategory',
+      emptySelectedCategory: 'emptySelectedCategory'
     }),
     actualizarCategoria() {
       this.updateCategoria(this.category)
@@ -121,11 +114,17 @@ export default {
         .catch(() => {
           alert('error')
         })
+    },
+    resetCategoryState() {
+      this.$router.go(-1)
+      setTimeout(() => {
+        this.emptySelectedCategory()
+      }, 300)
     }
   },
   computed: {
     ...mapGetters({ category: 'getCategory' }),
-    ...mapFields(['id', 'name', 'description', 'price'])
+    ...mapFields(['id', 'name', 'description'])
   }
 }
 </script>

@@ -76,7 +76,7 @@ export default {
   props: ['left'],
   data() {
     return {
-      options: ['es', 'en']
+      options: ['es', 'en', 'pt_BR']
     }
   },
   methods: {

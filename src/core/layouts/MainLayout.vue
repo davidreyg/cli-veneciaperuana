@@ -12,7 +12,6 @@
       @mouseout="miniState = true"
       :width="300"
       :breakpoint="500"
-      content-class="bg-grey-3"
     >
       <q-list padding>
         <q-expansion-item
@@ -27,7 +26,7 @@
               <q-icon name="school" />
             </q-item-section>
             <q-item-section>
-              <q-item-label>Categorias</q-item-label>
+              <q-item-label v-html="$t('navigation.categories')"></q-item-label>
               <q-item-label caption>api/categorias</q-item-label>
             </q-item-section>
           </q-item>
@@ -36,7 +35,7 @@
               <q-icon name="shopping_cart" />
             </q-item-section>
             <q-item-section>
-              <q-item-label>Almacén</q-item-label>
+              <q-item-label v-html="$t('navigation.storage')"></q-item-label>
               <q-item-label caption>api/storages</q-item-label>
             </q-item-section>
           </q-item>
@@ -60,11 +59,7 @@
           </q-item>
         </q-expansion-item>
 
-        <q-expansion-item
-          icon="settings"
-          label="Configuracion"
-          caption="Tipo documentos..."
-        >
+        <q-expansion-item icon="settings" :label="$t('navigation.settings')">
           <q-item clickable tag="a" to="tipo_documentos">
             <q-item-section avatar>
               <q-icon name="school" />
@@ -80,18 +75,31 @@
             <q-icon name="school" />
           </q-item-section>
           <q-item-section>
-            <q-item-label>Tinda</q-item-label>
-            <q-item-label caption>api/categorias</q-item-label>
+            <q-item-label v-html="$t('navigation.customers')"></q-item-label>
+            <q-item-label caption>api/clients</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item clickable tag="a" to="tienda">
+          <q-item-section avatar>
+            <q-icon name="school" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Dark mode</q-item-label>
+            <q-toggle
+              v-model="darkMode"
+              @input="toggleDarkMode"
+              color="green"
+            />
           </q-item-section>
         </q-item>
       </q-list>
     </q-drawer>
     <q-page-container>
-      <div class="q-pa-sm">
+      <div class="q-pa-md">
         <transition
           name="mainlayoutTransition"
           enter-active-class="animated fadeIn"
-          leave-active-class="animated fadeOutDown"
+          leave-active-class="animated fadeOut"
           mode="out-in"
         >
           <router-view />
@@ -115,22 +123,25 @@ export default {
   data() {
     return {
       left: false,
-      miniState: false
+      miniState: false,
+      darkMode: false
     }
   },
   created() {
-    this.bootstrap().then(res => {
-      this.setInitialCompany()
-    })
+    this.setInitialCompany()
+    this.bootstrap().then(res => {})
   },
   methods: {
     ...mapActions(['bootstrap']),
     ...mapActions('company', ['setSelectedCompany']),
+    toggleDarkMode() {
+      this.$q.dark.set(this.darkMode)
+    },
 
     setInitialCompany() {
       let selectedCompany = Ls.get('selectedCompany') !== null
 
-      if (selectedCompany) {
+      if (selectedCompany !== undefined) {
         let foundCompany = this.companies.find(
           company => company.id === parseInt(selectedCompany)
         )
@@ -141,7 +152,7 @@ export default {
         }
       }
 
-      this.setSelectedCompany(this.companies[0])
+      this.setSelectedCompany(this.$auth.user().company_id)
     },
     isleftDrawer(data) {
       this.left = data

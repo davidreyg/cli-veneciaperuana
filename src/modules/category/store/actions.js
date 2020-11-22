@@ -47,3 +47,7 @@ export async function deleteCategory (context, payload) {
     context.dispatch('fetchCategories')
   })
 }
+
+export async function emptySelectedCategory (context) {
+  return await context.commit('RESET_CATEGORY_STATE')
+}

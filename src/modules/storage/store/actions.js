@@ -34,9 +34,9 @@ export async function updateStorage (context, storage) {
 
 }
 
-// export async function emptySelectedProduct(context, payload) {
-//     await context.commit('SET_STORAGE', {})
-// }
+export async function emptySelectedItem (context) {
+  return await context.commit('RESET_STORAGE_STATE')
+}
 
 // export async function deleteProduct(context, payload) {
 //   return await StorageService.destroy(payload).then(res => {

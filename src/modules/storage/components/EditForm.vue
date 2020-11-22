@@ -151,7 +151,7 @@
                   type="button"
                   color="negative"
                   label="Cancelar"
-                  @click="$router.go(-1)"
+                  @click="cancelAction"
                 />
               </div>
             </div>
@@ -193,7 +193,8 @@ export default {
   methods: {
     ...mapActions('storage', {
       fetchOneItem: 'fetchOneItem',
-      actualizarStorage: 'updateStorage'
+      actualizarStorage: 'updateStorage',
+      limpiarStorage: 'emptySelectedItem'
     }),
     updateStorageItem() {
       this.status = 'V'
@@ -206,6 +207,12 @@ export default {
         .catch(err => {
           alert('algo salio mal')
         })
+    },
+    cancelAction() {
+      this.$router.go(-1)
+      setTimeout(() => {
+        this.limpiarStorage()
+      }, 300)
     }
   },
   computed: {

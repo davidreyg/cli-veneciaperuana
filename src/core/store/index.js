@@ -26,6 +26,8 @@ import provider from 'modules/provider/store'
 import billDetail from 'modules/billDetail/store'
 //STORAGE
 import storage from 'modules/storage/store'
+//SETTINGS/Preferences
+import preferences from './settings/preferences'
 
 Vue.use(Vuex)
 
@@ -58,6 +60,7 @@ export default function (/* { ssrContext } */) {
       provider,
       billDetail,
       storage,
+      preferences
     },
 
     // enable strict mode (adds overhead!)

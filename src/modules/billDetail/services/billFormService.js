@@ -1,6 +1,6 @@
 export async function clearDetailAndItemInputs ({ detail }) {
   detail.minimal_stock = null
-  detail.price = null
+  detail.price = ''
   detail.selling_price = ''
   detail.description = null
   detail.stock = null
@@ -21,14 +21,16 @@ export async function showItemDetails ({ detail, item, formDetails }) {
     detail.billable_id = item.storageable_id
     detail.billable_type = item.storageable_type
     detail.code = item.code
+    formDetails.disablePriceQuantityInputs = false
     return true;
   } else {
+    formDetails.disablePriceQuantityInputs = true
     console.log('no hay nada')
     detail.name = null
     detail.description = null
     formDetails.stock = null
     detail.code = null
-    detail.price = 0
+    detail.price = ''
     detail.total = 0
     detail.quantity = null
     detail.billable_id = null

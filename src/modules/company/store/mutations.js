@@ -5,9 +5,9 @@ export function BOOTSTRAP_COMPANIES (state, companies) {
   state.companies = companies
   state.selectedCompany = companies[0]
 }
-export function SET_SELECTED_COMPANY (state, company) {
-  Ls.set('selectedCompany', company.id)
-  state.selectedCompany = company
+export function SET_SELECTED_COMPANY (state, userCompany) {
+  Ls.set('selectedCompany', userCompany)
+  state.selectedCompany = userCompany
 }
 
 export function RESET_COMPANY_STATE (state) {

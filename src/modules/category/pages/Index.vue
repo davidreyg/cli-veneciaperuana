@@ -1,17 +1,15 @@
 <template>
-  <div>
-    <transition
-      enter-active-class="animated fadeIn"
-      leave-active-class="animated fadeOut"
-      mode="out-in"
-    >
-      <router-view></router-view>
-    </transition>
-  </div>
+  <transition
+    enter-active-class="animated fadeIn"
+    leave-active-class="animated fadeOut"
+    mode="out-in"
+  >
+    <router-view></router-view>
+  </transition>
 </template>
 
 <script>
-// import CategoryList from '../components/CategoryList';
+// import HeaderPageComponent from 'core/components/HeaderPageComponent'
 export default {
   components: {}
 }
