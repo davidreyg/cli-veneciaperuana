@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <edit-form></edit-form>
-  </div>
+  <edit-form></edit-form>
 </template>
 
 <script>

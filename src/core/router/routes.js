@@ -36,6 +36,10 @@ const routes = [
       storageRoutes
     ]
   },
+  {
+    path: '/icons',
+    component: () => import('core/pages/Icons.vue')
+  },
 
   /*
   |--------------------------------------------------------------------------

@@ -74,7 +74,12 @@
     "quantity": "Cantidad",
     "selling_price": "Precio de venta",
     "purchase_price": "Precio de compra",
+    "minimal_stock": "Stock mínimo",
     "form_subtitle": "Los campos con (*) son obligatorios."
+  },
+  "bill_detail": {
+    "add_bill": "Nueva Boleta de Compra",
+    "form_subtitle": "Claro ps mascota."
   },
   "general": {
     "add_new": "Nuevo",

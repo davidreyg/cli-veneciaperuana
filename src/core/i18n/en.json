@@ -43,7 +43,7 @@
     "title": "Storage",
     "storage_list": "Storage List",
 
-    "storage_edit": "Edit Item from Storage",
+    "storage_edit": "Edit Item",
     "action": "Action",
     "save_item": "Save Item",
     "update_item": "Update Item",
@@ -71,7 +71,12 @@
     "quantity": "Quantity",
     "selling_price": "Selling price",
     "purchase_price": "Purchase price",
+    "minimal_stock": "Minimal stock",
     "form_subtitle": "The fields with (*) are required."
+  },
+  "bill_detail": {
+    "add_bill": "New Bill",
+    "form_subtitle": "This is an subtitle in english."
   },
   "general": {
     "add_new": "New",

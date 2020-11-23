@@ -70,7 +70,7 @@
             </q-item-section>
           </q-item>
         </q-expansion-item>
-        <q-item clickable tag="a" to="tienda">
+        <q-item clickable tag="a" to="icons">
           <q-item-section avatar>
             <q-icon name="school" />
           </q-item-section>

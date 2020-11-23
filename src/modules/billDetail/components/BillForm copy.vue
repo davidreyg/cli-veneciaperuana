@@ -13,275 +13,6 @@
       Los campos con (*) son obligatorios
     </div>
     <div slot="pageOptions"></div>
-    <slot>
-      <ValidationObserver ref="observer" v-slot="{ passes, invalid }">
-        <form @submit.prevent="passes(insertBillDetails)" class="row">
-          <div class="col-xs-12 col-sm-6 q-px-xs ">
-            <ValidationProvider
-              rules="min: 3|max: 100|required"
-              name="notas"
-              v-slot="{ errors, invalid, validated }"
-            >
-              <q-input
-                v-model="bill.notes"
-                class="q-mb-xs-md q-mb-sm-sm q-mb-md-sm"
-                dense
-                outlined
-                autogrow=""
-                color="blue-grey-10"
-                type="text"
-                label="Notas"
-                :error="invalid && validated"
-                :error-message="errors[0]"
-              />
-            </ValidationProvider>
-          </div>
-
-          <div class="col-xs-12 col-sm-6 q-px-xs ">
-            <q-input
-              v-model="dateInvoice"
-              class="q-mb-xs-md q-mb-sm-sm q-mb-md-sm"
-              dense
-              outlined
-              color="blue-grey-10"
-              type="text"
-              label="Fecha"
-            >
-              <template v-slot:append>
-                <q-icon name="event" class="cursor-pointer">
-                  <q-popup-proxy
-                    ref="qDateProxy"
-                    transition-show="scale"
-                    transition-hide="scale"
-                  >
-                    <q-date v-model="dateInvoice">
-                      <div class="row items-center justify-end">
-                        <q-btn
-                          v-close-popup
-                          label="Close"
-                          color="primary"
-                          flat
-                        />
-                      </div>
-                    </q-date>
-                  </q-popup-proxy>
-                </q-icon>
-
-                <div></div>
-              </template>
-            </q-input>
-          </div>
-
-          <div class="col-xs-12 col-sm-6 q-px-xs ">
-            <ValidationProvider
-              rules="min: 3|max: 100"
-              name="descripcion"
-              v-slot="{ errors, invalid, validated }"
-            >
-              <q-input
-                v-model="formDetails.providerAlias"
-                class="q-mb-xs-md q-mb-sm-sm q-mb-md-sm"
-                dense
-                disable
-                readonly
-                outlined
-                color="blue-grey-10"
-                type="text"
-                label="Descripcion"
-                :error="invalid && validated"
-                :error-message="errors[0]"
-              />
-            </ValidationProvider>
-          </div>
-
-          <div class="col-xs-12 col-sm-4 q-px-xs ">
-            <ValidationProvider
-              rules="min: 3|max: 100"
-              name="descripcion"
-              v-slot="{ errors, invalid, validated }"
-            >
-              <q-input
-                v-model="detail.description"
-                class="q-mb-xs-md q-mb-sm-sm q-mb-md-sm"
-                dense
-                disable
-                readonly
-                outlined
-                color="blue-grey-10"
-                type="text"
-                label="Descripcion"
-                :error="invalid && validated"
-                :error-message="errors[0]"
-              />
-            </ValidationProvider>
-          </div>
-          <div class="col-md-6 col-xs-12 col-sm-9 q-px-xs ">
-            <ValidationProvider
-              rules="min: 1|max: 100"
-              name="stock"
-              v-slot="{ errors, invalid, validated }"
-            >
-              <q-input
-                v-model="formDetails.stock"
-                class="q-mb-xs-md q-mb-sm-sm q-mb-md-sm"
-                dense
-                disable
-                readonly
-                outlined
-                color="blue-grey-10"
-                type="text"
-                label="Stock"
-                :error="invalid && validated"
-                :error-message="errors[0]"
-              />
-            </ValidationProvider>
-          </div>
-          <div class="col-md-6 col-xs-12 col-sm-3 q-px-xs ">
-            <ValidationProvider
-              rules="min: 1|max: 100|required"
-              name="Precio de compra"
-              v-slot="{ errors, invalid, validated }"
-            >
-              <q-input
-                v-model="detail.price"
-                class="q-mb-xs-md q-mb-sm-sm q-mb-md-sm"
-                dense
-                outlined
-                :disable="formDetails.disablePriceQuantityInputs"
-                v-currency
-                color="blue-grey-10"
-                type="text"
-                label="Precio de compra"
-                :error="invalid && validated"
-                :error-message="errors[0]"
-                @keyup="calculateTotalDetail"
-              />
-            </ValidationProvider>
-          </div>
-          <div class="col-md-3 col-xs-12 col-sm-6 q-px-xs ">
-            <ValidationProvider
-              rules="required"
-              name="Items"
-              v-slot="{ errors, invalid, validated }"
-            >
-              <q-select
-                v-model="item"
-                dense
-                options-dense
-                outlined
-                class="q-mb-xs-md q-mb-sm-sm q-mb-md-sm"
-                color="blue-grey-10"
-                label="Items (*)"
-                use-input
-                :options="itemOptions"
-                :error="invalid && validated"
-                :error-message="errors[0]"
-                option-label="name"
-                option-value="code"
-                map-options
-                clearable
-                @filter="filterItems"
-                @input="showItem"
-              >
-                <template v-slot:no-option>
-                  <q-item>
-                    <q-item-section class="text-grey">
-                      No hay resultados
-                    </q-item-section>
-                  </q-item>
-                </template></q-select
-              >
-            </ValidationProvider>
-          </div>
-
-          <div class="col-md-3 col-xs-12 col-sm-6 q-px-xs ">
-            <ValidationProvider
-              rules="required"
-              name="Proveedor"
-              v-slot="{ errors, invalid, validated }"
-            >
-              <q-select
-                v-model="provider"
-                dense
-                options-dense
-                outlined
-                class="q-mb-xs-md q-mb-sm-sm q-mb-md-sm"
-                color="blue-grey-10"
-                label="Proveedor (*)"
-                use-input
-                :options="providerOptions"
-                :error="invalid && validated"
-                :error-message="errors[0]"
-                option-label="name"
-                option-value="id"
-                map-options
-                clearable
-                @filter="filterProviders"
-                @input="showProvider"
-              >
-                <template v-slot:no-option>
-                  <q-item>
-                    <q-item-section class="text-grey">
-                      No hay resultados
-                    </q-item-section>
-                  </q-item>
-                </template></q-select
-              >
-            </ValidationProvider>
-          </div>
-          <div class="col-md-2 col-xs-12 col-sm-5 q-px-xs ">
-            <ValidationProvider
-              rules="required|min: 1"
-              name="cantidad"
-              v-slot="{ errors, invalid, validated }"
-            >
-              <q-input
-                v-model="detail.quantity"
-                class="q-mb-xs-md q-mb-sm-sm q-mb-md-sm"
-                :disable="formDetails.disablePriceQuantityInputs"
-                dense
-                outlined
-                color="blue-grey-10"
-                type="number"
-                label="Cantidad"
-                :error="invalid && validated"
-                :error-message="errors[0]"
-                @keyup="calculateTotalDetail"
-              />
-            </ValidationProvider>
-          </div>
-          <div class="col-md-3 col-xs-10 col-sm-5 q-px-xs ">
-            <ValidationProvider
-              rules="min: 1|max: 100"
-              name="total"
-              v-slot="{ errors, invalid, validated }"
-            >
-              <q-input
-                ref="total"
-                v-model="formatedTotal"
-                class="q-mb-xs-md q-mb-sm-sm q-mb-md-sm"
-                dense
-                disable
-                readonly
-                outlined
-                color="blue-grey-10"
-                type="text"
-                label="Total"
-                :error="invalid && validated"
-                :error-message="errors[0]"
-              />
-            </ValidationProvider>
-          </div>
-          <div class="col-md-1 col-xs-2 col-sm-2 q-px-xs ">
-            <q-btn
-              icon="add"
-              round
-              type="submit"
-              :color="invalid ? 'grey' : 'primary'"
-            />
-          </div>
-        </form> </ValidationObserver
-    ></slot>
     <q-card class="my-card">
       <q-card-section class="bg-primary text-white">
         <div class="text-h6">Compra N° 00001</div>
@@ -289,6 +20,253 @@
 
       <q-separator />
       <q-card-section class="col-12 full-width">
+        <ValidationObserver ref="observer" v-slot="{ passes, invalid }">
+          <form @submit.prevent="passes(insertBillDetails)" class="row">
+            <div class="col-xs-12 col-sm-6 q-px-xs ">
+              <ValidationProvider
+                rules="min: 3|max: 100|required"
+                name="notas"
+                v-slot="{ errors, invalid, validated }"
+              >
+                <q-input
+                  v-model="bill.notes"
+                  class="q-mb-xs-md q-mb-sm-sm q-mb-md-sm"
+                  dense
+                  outlined
+                  autogrow=""
+                  color="blue-grey-10"
+                  type="text"
+                  label="Notas"
+                  :error="invalid && validated"
+                  :error-message="errors[0]"
+                />
+              </ValidationProvider>
+            </div>
+
+            <div class="col-xs-12 col-sm-6 q-px-xs ">
+              <q-input
+                v-model="dateInvoice"
+                class="q-mb-xs-md q-mb-sm-sm q-mb-md-sm"
+                dense
+                outlined
+                readonly
+                color="blue-grey-10"
+                type="text"
+                label="Fecha"
+              />
+            </div>
+
+            <div class="col-xs-12 col-sm-6 q-px-xs ">
+              <ValidationProvider
+                rules="required"
+                name="Proveedor"
+                v-slot="{ errors, invalid, validated }"
+              >
+                <q-select
+                  v-model="provider"
+                  dense
+                  options-dense
+                  outlined
+                  class="q-mb-xs-md q-mb-sm-sm q-mb-md-sm"
+                  color="blue-grey-10"
+                  label="Proveedor (*)"
+                  use-input
+                  :options="providerOptions"
+                  :error="invalid && validated"
+                  :error-message="errors[0]"
+                  option-label="name"
+                  option-value="id"
+                  map-options
+                  clearable
+                  @filter="filterProviders"
+                  @input="showProvider"
+                >
+                  <template v-slot:no-option>
+                    <q-item>
+                      <q-item-section class="text-grey">
+                        No hay resultados
+                      </q-item-section>
+                    </q-item>
+                  </template></q-select
+                >
+              </ValidationProvider>
+            </div>
+
+            <div class="col-xs-12 col-sm-6 q-px-xs ">
+              <ValidationProvider
+                rules="min: 3|max: 100"
+                name="descripcion"
+                v-slot="{ errors, invalid, validated }"
+              >
+                <q-input
+                  v-model="formDetails.providerAlias"
+                  class="q-mb-xs-md q-mb-sm-sm q-mb-md-sm"
+                  dense
+                  disable
+                  readonly
+                  outlined
+                  color="blue-grey-10"
+                  type="text"
+                  label="Descripcion"
+                  :error="invalid && validated"
+                  :error-message="errors[0]"
+                />
+              </ValidationProvider>
+            </div>
+
+            <div class="col-xs-12 col-sm-6 q-px-xs ">
+              <ValidationProvider
+                rules="required"
+                name="Items"
+                v-slot="{ errors, invalid, validated }"
+              >
+                <q-select
+                  v-model="item"
+                  dense
+                  options-dense
+                  outlined
+                  class="q-mb-xs-md q-mb-sm-sm q-mb-md-sm"
+                  color="blue-grey-10"
+                  label="Items (*)"
+                  use-input
+                  :options="itemOptions"
+                  :error="invalid && validated"
+                  :error-message="errors[0]"
+                  option-label="name"
+                  option-value="code"
+                  map-options
+                  clearable
+                  @filter="filterItems"
+                  @input="showItem"
+                >
+                  <template v-slot:no-option>
+                    <q-item>
+                      <q-item-section class="text-grey">
+                        No hay resultados
+                      </q-item-section>
+                    </q-item>
+                  </template></q-select
+                >
+              </ValidationProvider>
+            </div>
+            <div class="col-xs-12 col-sm-4 q-px-xs ">
+              <ValidationProvider
+                rules="min: 3|max: 100"
+                name="descripcion"
+                v-slot="{ errors, invalid, validated }"
+              >
+                <q-input
+                  v-model="detail.description"
+                  class="q-mb-xs-md q-mb-sm-sm q-mb-md-sm"
+                  dense
+                  disable
+                  readonly
+                  outlined
+                  color="blue-grey-10"
+                  type="text"
+                  label="Descripcion"
+                  :error="invalid && validated"
+                  :error-message="errors[0]"
+                />
+              </ValidationProvider>
+            </div>
+            <div class="col-xs-12 col-sm-2 q-px-xs ">
+              <ValidationProvider
+                rules="min: 1|max: 100"
+                name="stock"
+                v-slot="{ errors, invalid, validated }"
+              >
+                <q-input
+                  v-model="formDetails.stock"
+                  class="q-mb-xs-md q-mb-sm-sm q-mb-md-sm"
+                  dense
+                  disable
+                  readonly
+                  outlined
+                  color="blue-grey-10"
+                  type="text"
+                  label="Stock"
+                  :error="invalid && validated"
+                  :error-message="errors[0]"
+                />
+              </ValidationProvider>
+            </div>
+            <div class="col-xs-12 col-sm-3 q-px-xs ">
+              <ValidationProvider
+                rules="min: 1|max: 100|required"
+                name="Precio de compra"
+                v-slot="{ errors, invalid, validated }"
+              >
+                <q-input
+                  v-model="detail.price"
+                  class="q-mb-xs-md q-mb-sm-sm q-mb-md-sm"
+                  dense
+                  outlined
+                  :disable="formDetails.disablePriceQuantityInputs"
+                  v-currency
+                  color="blue-grey-10"
+                  type="text"
+                  label="Precio de compra"
+                  :error="invalid && validated"
+                  :error-message="errors[0]"
+                  @keyup="calculateTotalDetail"
+                />
+              </ValidationProvider>
+            </div>
+            <div class="col-xs-12 col-sm-3 q-px-xs ">
+              <ValidationProvider
+                rules="required|min: 1"
+                name="cantidad"
+                v-slot="{ errors, invalid, validated }"
+              >
+                <q-input
+                  v-model="detail.quantity"
+                  class="q-mb-xs-md q-mb-sm-sm q-mb-md-sm"
+                  :disable="formDetails.disablePriceQuantityInputs"
+                  dense
+                  outlined
+                  color="blue-grey-10"
+                  type="number"
+                  label="Cantidad"
+                  :error="invalid && validated"
+                  :error-message="errors[0]"
+                  @keyup="calculateTotalDetail"
+                />
+              </ValidationProvider>
+            </div>
+            <div class="col-xs-12 col-sm-3 q-px-xs ">
+              <ValidationProvider
+                rules="min: 1|max: 100"
+                name="total"
+                v-slot="{ errors, invalid, validated }"
+              >
+                <q-input
+                  ref="total"
+                  v-model="formatedTotal"
+                  class="q-mb-xs-md q-mb-sm-sm q-mb-md-sm"
+                  dense
+                  disable
+                  readonly
+                  outlined
+                  color="blue-grey-10"
+                  type="text"
+                  label="Total"
+                  :error="invalid && validated"
+                  :error-message="errors[0]"
+                />
+              </ValidationProvider>
+            </div>
+            <div class="col-xs-12 col-sm-3 q-px-xs ">
+              <q-btn
+                icon="add"
+                round
+                type="submit"
+                :color="invalid ? 'grey' : 'primary'"
+              />
+            </div>
+          </form>
+        </ValidationObserver>
+
         <ValidationObserver ref="observer2" v-slot="{ invalid, passes }">
           <form @submit.prevent="passes(insertInvoiceProduct)" class="row">
             <div class="col-xs-12 col-sm-12 ">
@@ -437,7 +415,7 @@ export default {
       provider: null,
       itemOptions: this.items,
       providerOptions: this.providers,
-      dateInvoice: date.formatDate(Date.now(), 'YYYY/MM/DD'),
+      dateInvoice: date.formatDate(Date.now(), 'D - MMMM - YYYY'),
       disableClientInput: false
     }
   },

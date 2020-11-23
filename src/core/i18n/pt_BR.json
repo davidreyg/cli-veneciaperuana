@@ -18,7 +18,7 @@
     "items_list": "Lista de Categorias",
     "add_category": "Adicionar Categoria",
     "subtitle_category": "Os campos com (*) são obrigatórios.",
-    "edit_category": "Edit Category",
+    "edit_category": "Editar Categoria",
     "unit": "Unidade",
     "added_on": "Added On",
     "price": "Price",
@@ -44,7 +44,7 @@
   "storages": {
     "title": "Estoque",
     "storage_list": "Lista de Itens no Estoque",
-    "edit_storages": "Edit ",
+    "storage_edit": "Editar item. ",
     "unit": "Unidade",
     "added_on": "Added On",
     "price": "Price",
@@ -74,7 +74,12 @@
     "quantity": "Quantidade",
     "selling_price": "Preço de venta",
     "purchase_price": "Preço de venda",
+    "minimal_stock": "Estoque mínimo",
     "form_subtitle": "Os campos com (*) são obrigatórios."
+  },
+  "bill_detail": {
+    "add_bill": "Nova Compra",
+    "form_subtitle": "Nao sei nada."
   },
   "general": {
     "actions": "Ações",

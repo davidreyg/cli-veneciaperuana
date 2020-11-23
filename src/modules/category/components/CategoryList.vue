@@ -7,7 +7,7 @@
       v-html="$t('categories.items_list')"
     ></div>
     <div slot="pageOptions" class="row items-center justify-between">
-      <div class="col-md-8 col-xs-5 col-sm-6 col-lg-7 column items-end">
+      <div class="col-md-7 col-xs-5 col-sm-6 col-lg-7 column items-end">
         <q-select
           v-model="visibleColumns"
           multiple
@@ -22,7 +22,7 @@
           option-value="name"
         />
       </div>
-      <div class="col-md-4 col-xs-5 col-sm-6 col-lg-3 column items-end">
+      <div class="col-md-5 col-xs-5 col-sm-5 col-lg-3 column items-end">
         <q-btn
           color="primary"
           rounded
@@ -40,6 +40,7 @@
         :grid="$q.screen.xs"
         :data="getCategories"
         :columns="columns"
+        separator="none"
         row-key="id"
         :filter="filter"
         :loading="loading"
@@ -159,7 +160,7 @@ export default {
           name: 'description',
           align: 'right',
           label: this.$t('form_general.description'),
-          field: 'description',
+          field: row => row.description || 'Sin descripción',
           sortable: true
         },
         {
