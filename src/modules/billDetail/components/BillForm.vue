@@ -71,93 +71,6 @@
               </template>
             </q-input>
           </div>
-
-          <div class="col-xs-12 col-sm-6 q-px-xs ">
-            <ValidationProvider
-              rules="min: 3|max: 100"
-              name="descripcion"
-              v-slot="{ errors, invalid, validated }"
-            >
-              <q-input
-                v-model="formDetails.providerAlias"
-                class="q-mb-xs-md q-mb-sm-sm q-mb-md-sm"
-                dense
-                disable
-                readonly
-                outlined
-                color="blue-grey-10"
-                type="text"
-                label="Descripcion"
-                :error="invalid && validated"
-                :error-message="errors[0]"
-              />
-            </ValidationProvider>
-          </div>
-
-          <div class="col-xs-12 col-sm-4 q-px-xs ">
-            <ValidationProvider
-              rules="min: 3|max: 100"
-              name="descripcion"
-              v-slot="{ errors, invalid, validated }"
-            >
-              <q-input
-                v-model="detail.description"
-                class="q-mb-xs-md q-mb-sm-sm q-mb-md-sm"
-                dense
-                disable
-                readonly
-                outlined
-                color="blue-grey-10"
-                type="text"
-                label="Descripcion"
-                :error="invalid && validated"
-                :error-message="errors[0]"
-              />
-            </ValidationProvider>
-          </div>
-          <div class="col-md-6 col-xs-12 col-sm-9 q-px-xs ">
-            <ValidationProvider
-              rules="min: 1|max: 100"
-              name="stock"
-              v-slot="{ errors, invalid, validated }"
-            >
-              <q-input
-                v-model="formDetails.stock"
-                class="q-mb-xs-md q-mb-sm-sm q-mb-md-sm"
-                dense
-                disable
-                readonly
-                outlined
-                color="blue-grey-10"
-                type="text"
-                label="Stock"
-                :error="invalid && validated"
-                :error-message="errors[0]"
-              />
-            </ValidationProvider>
-          </div>
-          <div class="col-md-6 col-xs-12 col-sm-3 q-px-xs ">
-            <ValidationProvider
-              rules="min: 1|max: 100|required"
-              name="Precio de compra"
-              v-slot="{ errors, invalid, validated }"
-            >
-              <q-input
-                v-model="detail.price"
-                class="q-mb-xs-md q-mb-sm-sm q-mb-md-sm"
-                dense
-                outlined
-                :disable="formDetails.disablePriceQuantityInputs"
-                v-currency
-                color="blue-grey-10"
-                type="text"
-                label="Precio de compra"
-                :error="invalid && validated"
-                :error-message="errors[0]"
-                @keyup="calculateTotalDetail"
-              />
-            </ValidationProvider>
-          </div>
           <div class="col-md-3 col-xs-12 col-sm-6 q-px-xs ">
             <ValidationProvider
               rules="required"
@@ -229,7 +142,7 @@
               >
             </ValidationProvider>
           </div>
-          <div class="col-md-2 col-xs-12 col-sm-5 q-px-xs ">
+          <div class="col-md-1 col-xs-12 col-sm-3 q-px-xs ">
             <ValidationProvider
               rules="required|min: 1"
               name="cantidad"
@@ -250,7 +163,29 @@
               />
             </ValidationProvider>
           </div>
-          <div class="col-md-3 col-xs-10 col-sm-5 q-px-xs ">
+          <div class="col-md-2 col-xs-12 col-sm-3 q-px-xs ">
+            <ValidationProvider
+              rules="min: 1|max: 100|required"
+              name="Precio de compra"
+              v-slot="{ errors, invalid, validated }"
+            >
+              <q-input
+                v-model="detail.price"
+                class="q-mb-xs-md q-mb-sm-sm q-mb-md-sm"
+                dense
+                outlined
+                :disable="formDetails.disablePriceQuantityInputs"
+                v-currency
+                color="blue-grey-10"
+                type="text"
+                label="Precio de compra"
+                :error="invalid && validated"
+                :error-message="errors[0]"
+                @keyup="calculateTotalDetail"
+              />
+            </ValidationProvider>
+          </div>
+          <div class="col-md-2 col-xs-10 col-sm-5 q-px-xs ">
             <ValidationProvider
               rules="min: 1|max: 100"
               name="total"
@@ -272,7 +207,7 @@
               />
             </ValidationProvider>
           </div>
-          <div class="col-md-1 col-xs-2 col-sm-2 q-px-xs ">
+          <div class="col-md-1 col-xs-2 col-sm-1 q-px-xs ">
             <q-btn
               icon="add"
               round
